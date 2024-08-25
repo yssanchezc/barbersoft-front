@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "id": "1",
+            "name": "Corte hombre",
+            "status": "ACTIVO"
+        },
+        {
+            "id": "2",
+            "name": "Alisado",
+            "status": "ACTIVO"
+        },
+        {
+            "id": "3",
+            "name": "Manicure",
+            "status": "ACTIVO"
+        }
+    ]
+}

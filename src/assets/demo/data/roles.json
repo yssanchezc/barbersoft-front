@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "id": "1",
+            "name": "ADMINISTRADOR",
+            "status": "ACTIVO"
+        },
+        {
+            "id": "2",
+            "name": "PELUQUERO",
+            "status": "ACTIVO"
+        },
+        {
+            "id": "3",
+            "name": "CLIENTE",
+            "status": "INACTIVO"
+        }
+    ]
+}

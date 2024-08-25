@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "id": "1",
+            "name": "Acondicionador",
+            "status": "ACTIVO"
+        },
+        {
+            "id": "2",
+            "name": "Tratamiento",
+            "status": "ACTIVO"
+        },
+        {
+            "id": "3",
+            "name": "Shampoo",
+            "status": "ACTIVO"
+        }
+    ]
+}
