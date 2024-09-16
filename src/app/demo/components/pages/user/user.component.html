@@ -115,7 +115,7 @@
                 </div>
                 <div class="field">
                     <label for="phone">Teléfono</label>
-                    <input type="text" pInputText id="phone" [(ngModel)]="user.phone" required autofocus
+                    <input type="number" pInputText id="phone" [(ngModel)]="user.phone" required autofocus
                         [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.phone}" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.phone">El teléfono es requerido.</small>
                 </div>
@@ -127,9 +127,9 @@
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
                     (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
                     (click)="saveUser()"></button>
             </ng-template>
         </p-dialog>
@@ -142,7 +142,7 @@
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
                     (click)="deleteUserDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
                     (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
@@ -155,7 +155,7 @@
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
                     (click)="deleteUsersDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
                     (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>

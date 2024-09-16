@@ -8,20 +8,20 @@
                         <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
                             (click)="openNew()"></button>
                         <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger"
-                            (click)="deleteSelectedRoles()"
-                            [disabled]="!selectedRoles || !selectedRoles.length"></button>
+                            (click)="deleteSelectedServices()"
+                            [disabled]="!selectedServices || !selectedServices.length"></button>
                     </div>
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="roles" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
+            <p-table #dt [value]="services" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['name','status']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
-                [(selection)]="selectedRoles" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                [(selection)]="selectedServices" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Roles</h5>
+                        <h5 class="m-0">Servicios</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."
@@ -35,28 +35,32 @@
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
                         <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="price">Precio <p-sortIcon field="price"></p-sortIcon></th>
                         <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-role>
+                <ng-template pTemplate="body" let-service>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="role"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="service"></p-tableCheckbox>
                         </td>
-                        <td style="width:40%; min-width:10rem;"><span class="p-column-title">Code</span>
-                            {{role.name}}
+                        <td style="width:17%; min-width:10rem;"><span class="p-column-title">Name</span>
+                            {{service.name}}
                         </td>
-                        <td style="width:40%; min-width: 10rem;"><span class="p-column-title">Status</span>
-                            <span>ACTIVO</span>
+                        <td style="width:17%; min-width:10rem;"><span class="p-column-title">Price</span>
+                            {{service.price}}
+                        </td>
+                        <td style="width:17%; min-width: 10rem;"><span class="p-column-title">Status</span>
+                            <span [class]="'service-badge status-' + (service.status ? service.status.toLowerCase() : '')">{{service.status}}</span>
                         </td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2"
-                                    (click)="editRole(role)"></button>
+                                    (click)="editService(service)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteRole(role)"></button>
+                                    (click)="deleteService(service)"></button>
                             </div>
                         </td>
                     </tr>
@@ -64,14 +68,25 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="roleDialog" [style]="{width: '450px'}" header="Nuevo rol" [modal]="true"
+        <p-dialog [(visible)]="serviceDialog" [style]="{width: '450px'}" header="Nuevo servicio" [modal]="true"
             class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
                     <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="role.name" required autofocus
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !role.name}" />
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !role.name">El nombre es requerido.</small>
+                    <input type="text" pInputText id="name" [(ngModel)]="service.name" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !service.name}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !service.name">El nombre es requerido.</small>
+                </div>
+                <div class="field">
+                    <label for="price">Precio</label>
+                    <input type="number" pInputText id="price" [(ngModel)]="service.price" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !service.price}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !service.price">El precio es requerido.</small>
+                </div>
+                <div class="field">
+                    <label for="status">Estado</label>
+                    <input type="text" pInputText id="status" [(ngModel)]="service.status" required autofocus
+                        />
                 </div>
             </ng-template>
 
@@ -79,31 +94,31 @@
                 <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
                     (click)="hideDialog()"></button>
                 <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
-                    (click)="saveRole()"></button>
+                    (click)="saveService()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteRoleDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteServiceDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="role">¿Está seguro que desea eliminar el rol <b>{{role.name}}</b>?</span>
+                <span *ngIf="service">¿Está seguro que desea eliminar el servicio? <b>{{service.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-                    (click)="deleteRoleDialog = false"></button>
+                    (click)="deleteServiceDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
                     (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteRolesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteServicesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Está seguro que desea eliminar los roles seleccionados?</span>
+                <span>Está seguro que desea eliminar los servicios seleccionados?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-                    (click)="deleteRolesDialog = false"></button>
+                    (click)="deleteServicesDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
                     (click)="confirmDeleteSelected()"></button>
             </ng-template>

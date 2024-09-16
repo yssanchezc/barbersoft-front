@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Role } from 'src/app/demo/api/role';
 import { ProductService } from 'src/app/demo/service/product.service';
+import { RoleService } from 'src/app/demo/service/role.service';
 
 @Component({
   selector: 'app-role',
@@ -31,19 +32,28 @@ export class RoleComponent implements OnInit {
   rowsPerPageOptions = [5, 10, 20];
 
   constructor(
-    private productService: ProductService,
+    private roleService: RoleService,
     private messageService: MessageService
   ) { }
 
   ngOnInit() {
-    this.productService.getRoles().then(data => this.roles = data);
-
-    console.log(this.roles);
+    this.getRoles();
 
     this.cols = [
       { field: 'name', header: 'Nombre' },
       { field: 'status', header: 'Estado' }
     ];
+  }
+
+  getRoles() {
+    this.roleService.getRoles().subscribe({
+      next: (data) => {
+        this.roles = data
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   openNew() {
@@ -90,19 +100,21 @@ export class RoleComponent implements OnInit {
 
     if (this.role.name?.trim()) {
       if (this.role.id) {
-        // @ts-ignore
         this.roles[this.findIndexById(this.role.id)] = this.role;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Role actualizado', life: 3000 });
       } else {
-        this.role.id = this.createId();
-        // @ts-ignore
-        this.roles.push(this.role);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+        this.roleService.createRole(this.role).subscribe({
+          next: () => {
+            this.roles = [...this.roles];
+            this.roleDialog = false;
+            this.getRoles();
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Role creado correctamente', life: 3000 });
+          },
+          error: (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Ocurrió un error', life: 3000 });
+          }
+        });
       }
-
-      this.roles = [...this.roles];
-      this.roleDialog = false;
-      this.role = {};
     }
   }
 

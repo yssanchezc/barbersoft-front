@@ -1,0 +1,25 @@
+{
+    "data": [
+        {
+            "id": "1",
+            "service_name": "Corte para caballero",
+            "hairdresser_name": "Johan Suárez",
+            "description": "Requiero de un corte clásico, pero tengo un poco de prisa",
+            "status": "PENDIENTE"
+        },
+        {
+            "id": "2",
+            "service_name": "Manicure",
+            "hairdresser_name": "Camilo Aguirre",
+            "description": "Por favor necesito la linea francesa y requiero de un color en especial",
+            "status": "REALIZADO"
+        },
+        {
+            "id": "3",
+            "service_name": "Keratina",
+            "hairdresser_name": "Camila Perez",
+            "description": "Requiero de un producto suave, que no dañe mi cabello y que por favor me coloquen un tratamiento",
+            "status": "PENDIENTE"
+        }
+    ]
+}

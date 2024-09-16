@@ -1,6 +1,6 @@
-export interface Product {
+export interface Service {
     id?: string;
     name?: string;
+    price?: string;
     status?: string;
-    
 }

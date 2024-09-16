@@ -1,0 +1,63 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg"
+            alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0">
+        <div
+            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <div class="text-900 text-3xl font-medium mb-3">Bienvenido</div>
+
+                </div>
+
+                <div>
+                    <div class="card p-fluid">
+                        <div class="p-formgrid grid">
+                            <div class="field col">
+                                <label htmlFor="name2">Nombres</label>
+                                <input pInputText id="name2" type="text" />
+                            </div>
+                            <div class="field col">
+                                <label htmlFor="email2">Apellidos</label>
+                                <input pInputText id="email2" type="text" />
+                            </div>
+                        </div>
+                        <div class="p-formgrid grid">
+                            <div class="field col">
+                                <label htmlFor="name2">Fecha de nacimiento</label>
+                                <input pInputText id="name2" type="date" />
+                            </div>
+                            <div class="field col">
+                                <label htmlFor="email2">Correo</label>
+                                <input pInputText id="email2" type="email" />
+                            </div>
+                        </div>
+                        <div class="p-formgrid grid">
+                            <div class="field col">
+                                <label htmlFor="name2">Teléfono</label>
+                                <input pInputText id="name2" type="text" />
+                            </div>
+                            <div class="field col">
+                                <label htmlFor="email2">Dirección</label>
+                                <input pInputText id="email2" type="text" />
+                            </div>
+                        </div>
+                        <div class="p-formgrid grid">
+                            <div class="field col">
+                                <label htmlFor="name2">Contraseña</label>
+                                <input pInputText id="name2" type="password" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button pButton pRipple label="Regístrate" class="w-full p-3 text-xl"
+                        [routerLink]="['/dashboard']"></button>
+                    <div class="text-center mt-2">
+                    <a class="font-medium no-underline ml-2 cursor-pointer" style="color: var(--primary-color)"
+                        [routerLink]="['/auth/login']">¿Ya tienes una cuenta? Inicia sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

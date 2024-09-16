@@ -8,20 +8,20 @@
                         <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
                             (click)="openNew()"></button>
                         <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger"
-                            (click)="deleteSelectedRoles()"
-                            [disabled]="!selectedRoles || !selectedRoles.length"></button>
+                            (click)="deleteSelectedProducts()"
+                            [disabled]="!selectedProducts || !selectedProducts.length"></button>
                     </div>
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="roles" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
+            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['name','status']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
-                [(selection)]="selectedRoles" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Roles</h5>
+                        <h5 class="m-0">Productos</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."
@@ -39,24 +39,24 @@
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-role>
+                <ng-template pTemplate="body" let-product>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="role"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="product"></p-tableCheckbox>
                         </td>
-                        <td style="width:40%; min-width:10rem;"><span class="p-column-title">Code</span>
-                            {{role.name}}
+                        <td style="width:40%; min-width:10rem;"><span class="p-column-title">Name</span>
+                            {{product.name}}
                         </td>
                         <td style="width:40%; min-width: 10rem;"><span class="p-column-title">Status</span>
-                            <span>ACTIVO</span>
+                            <span [class]="'product-badge status-' + (product.status ? product.status.toLowerCase() : '')">{{product.status}}</span>
                         </td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2"
-                                    (click)="editRole(role)"></button>
+                                    (click)="editProduct(product)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteRole(role)"></button>
+                                    (click)="deleteProduct(product)"></button>
                             </div>
                         </td>
                     </tr>
@@ -64,14 +64,14 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="roleDialog" [style]="{width: '450px'}" header="Nuevo rol" [modal]="true"
+        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Nuevo producto" [modal]="true"
             class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
                     <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="role.name" required autofocus
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !role.name}" />
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !role.name">El nombre es requerido.</small>
+                    <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">El nombre es requerido.</small>
                 </div>
             </ng-template>
 
@@ -79,31 +79,31 @@
                 <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
                     (click)="hideDialog()"></button>
                 <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
-                    (click)="saveRole()"></button>
+                    (click)="saveProduct()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteRoleDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="role">¿Está seguro que desea eliminar el rol <b>{{role.name}}</b>?</span>
+                <span *ngIf="product">¿Está seguro que desea eliminar el producto? <b>{{product.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-                    (click)="deleteRoleDialog = false"></button>
+                    (click)="deleteProductDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
                     (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteRolesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Está seguro que desea eliminar los roles seleccionados?</span>
+                <span>Está seguro que desea eliminar los productos seleccionados?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-                    (click)="deleteRolesDialog = false"></button>
+                    (click)="deleteProductsDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
                     (click)="confirmDeleteSelected()"></button>
             </ng-template>
