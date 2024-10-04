@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
         { path: 'product', loadChildren: () => import('./product/product.module').then(m => m.ProductModule) },
         { path: 'service', loadChildren: () => import('./service/service.module').then(m => m.ServiceModule) },
         { path: 'appointment', loadChildren: () => import('./appointment/appointment.module').then(m => m.AppointmentModule) },
+        { path: 'appointment-client', loadChildren: () => import('./appointment-client/appointment-client.module').then(m => m.AppointmentClientModule) },
         { path: 'inventory', loadChildren: () => import('./entrance/entrance.module').then(m => m.EntranceModule) },
         { path: '**', redirectTo: '/notfound' }
     ])],

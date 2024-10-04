@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RoleComponent } from './role.component';
 import { TableModule } from 'primeng/table';
 import { FileUploadModule } from 'primeng/fileupload';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
@@ -15,15 +14,16 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
-import { RoleRoutingModule } from './role-routing.module';
-
+import { AppointmentRoutingModule } from './appointment-client-routing.module';
+import { AppointmentClientComponent } from './appointment-client.component';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
-  declarations: [RoleComponent],
+  declarations: [AppointmentClientComponent],
   imports: [
     CommonModule,
-    RoleRoutingModule,
+    AppointmentRoutingModule,
     TableModule,
     FileUploadModule,
     FormsModule,
@@ -38,7 +38,7 @@ import { RoleRoutingModule } from './role-routing.module';
     RadioButtonModule,
     InputNumberModule,
     DialogModule,
-    ReactiveFormsModule
+    CalendarModule
   ]
 })
-export class RoleModule { }
+export class AppointmentClientModule { }

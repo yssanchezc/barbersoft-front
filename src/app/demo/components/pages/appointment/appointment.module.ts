@@ -16,6 +16,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { AppointmentRoutingModule } from './appointment-routing.module';
 import { AppointmentComponent } from './appointment.component';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { AppointmentComponent } from './appointment.component';
     DropdownModule,
     RadioButtonModule,
     InputNumberModule,
-    DialogModule
+    DialogModule,
+    CalendarModule
   ]
 })
 export class AppointmentModule { }

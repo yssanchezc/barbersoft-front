@@ -20,4 +20,8 @@ export class RoleService {
   createRole(role: Role) {
     return this.http.post<any>(`${this.baseUrl}/roles`, role)
   }
+
+  updateRole(role: Role) {
+    return this.http.put<any>(`${this.baseUrl}/roles/${role.id}`, role)
+  }
 }

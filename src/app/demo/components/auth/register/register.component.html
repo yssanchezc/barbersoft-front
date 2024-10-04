@@ -15,49 +15,66 @@
                         <div class="p-formgrid grid">
                             <div class="field col">
                                 <label htmlFor="name2">Nombres</label>
-                                <input pInputText id="name2" type="text" />
+                                <input type="text" pInputText id="names" [(ngModel)]="user.names" required autofocus
+                                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.names}" />
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.names">El nombre es
+                                    requerido.</small>
                             </div>
                             <div class="field col">
                                 <label htmlFor="email2">Apellidos</label>
-                                <input pInputText id="email2" type="text" />
+                                <input type="text" pInputText id="lastname" [(ngModel)]="user.lastname" required
+                                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.lastname}" />
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.lastname">El apellido es
+                                    requerido.</small>
                             </div>
                         </div>
                         <div class="p-formgrid grid">
                             <div class="field col">
                                 <label htmlFor="name2">Fecha de nacimiento</label>
-                                <input pInputText id="name2" type="date" />
+                                <input type="date" pInputText id="date_birth" [(ngModel)]="user.date_birth" required
+                                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.date_birth}" />
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.date_birth">La fecha de
+                                    nacimiento es requerida.</small>
                             </div>
                             <div class="field col">
                                 <label htmlFor="email2">Correo</label>
-                                <input pInputText id="email2" type="email" />
+                                <input type="email" pInputText id="email" [(ngModel)]="user.email" required
+                                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.email}" />
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.email">El correo es
+                                    requerido.</small>
                             </div>
                         </div>
                         <div class="p-formgrid grid">
                             <div class="field col">
                                 <label htmlFor="name2">Teléfono</label>
-                                <input pInputText id="name2" type="text" />
+                                <input type="number" pInputText id="phone" [(ngModel)]="user.phone" required
+                                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.phone}" />
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.phone">El teléfono es
+                                    requerido.</small>
                             </div>
                             <div class="field col">
                                 <label htmlFor="email2">Dirección</label>
-                                <input pInputText id="email2" type="text" />
+                                <input type="text" pInputText id="address" [(ngModel)]="user.address" required />
                             </div>
                         </div>
                         <div class="p-formgrid grid">
                             <div class="field col">
                                 <label htmlFor="name2">Contraseña</label>
-                                <input pInputText id="name2" type="password" />
+                                <input type="password" pInputText id="password" [(ngModel)]="user.password" required
+                                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.password}" />
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.password">La contraseña es
+                                    requerida.</small>
                             </div>
                         </div>
                     </div>
 
-                    <button pButton pRipple label="Regístrate" class="w-full p-3 text-xl"
-                        [routerLink]="['/dashboard']"></button>
+                    <button type="button" pButton pRipple label="Regístrate" class="w-full p-3 text-xl" [disabled]="isFormValid()" (click)="signUp()"></button>
                     <div class="text-center mt-2">
-                    <a class="font-medium no-underline ml-2 cursor-pointer" style="color: var(--primary-color)"
-                        [routerLink]="['/auth/login']">¿Ya tienes una cuenta? Inicia sesión</a>
+                        <a class="font-medium no-underline ml-2 cursor-pointer" style="color: var(--primary-color)"
+                            [routerLink]="['/auth/login']">¿Ya tienes una cuenta? Inicia sesión</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>

@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { User } from 'src/app/demo/api/user';
 import { ProductService } from 'src/app/demo/service/product.service';
+import { UserService } from 'src/app/demo/service/user.service';
 
 @Component({
   selector: 'app-user',
@@ -13,34 +14,27 @@ import { ProductService } from 'src/app/demo/service/product.service';
 export class UserComponent implements OnInit {
 
   userDialog: boolean = false;
-
-  deleteUserDialog: boolean = false;
-
-  deleteUsersDialog: boolean = false;
-
+  userDialogUpdate: boolean = false;
   users: any[] = [];
-
   user: User = {};
-
   selectedUsers: User[] = [];
-
   submitted: boolean = false;
 
   cols: any[] = [];
 
-  statuses: any[] = [];
+  roles: any[] = [];
 
   rowsPerPageOptions = [5, 10, 20];
 
+  statuses: any[] = [];
+
   constructor(
-    private productService: ProductService,
+    private userService: UserService,
     private messageService: MessageService
   ) { }
 
   ngOnInit() {
-    this.productService.getUsers().then(data => this.users = data);
-
-    console.log(this.users);
+    this.getUsers();
 
     this.cols = [
       { field: 'names', header: 'Name' },
@@ -52,12 +46,28 @@ export class UserComponent implements OnInit {
       { field: 'address', header: 'Address' }
     ];
 
+    this.roles = [
+      { label: 'CLIENTE', value: 2 },
+      { label: 'ADMINISTRADOR', value: 1 },
+    ];
+
     this.statuses = [
-      { label: 'INSTOCK', value: 'instock' },
-      { label: 'LOWSTOCK', value: 'lowstock' },
-      { label: 'OUTOFSTOCK', value: 'outofstock' }
+      { label: 'ACTIVO', value: true },
+      { label: 'INACTIVO', value: false },
     ];
   }
+
+  getUsers() {
+    this.userService.getUsers().subscribe({
+      next: (data) => {
+        this.users = data
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
 
   openNew() {
     this.user = {};
@@ -65,80 +75,65 @@ export class UserComponent implements OnInit {
     this.userDialog = true;
   }
 
-  deleteSelectedUsers() {
-    this.deleteUsersDialog = true;
-  }
-
   editUser(user: User) {
     this.user = { ...user };
-    this.userDialog = true;
-  }
-
-  deleteUser(user: User) {
-    this.deleteUserDialog = true;
-    this.user = { ...user };
-  }
-
-  confirmDeleteSelected() {
-    this.deleteUsersDialog = false;
-    this.users = this.users.filter(val => !this.selectedUsers.includes(val));
-    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Users Deleted', life: 3000 });
-    this.selectedUsers = [];
-  }
-
-  confirmDelete() {
-    this.deleteUserDialog = false;
-    this.users = this.users.filter(val => val.id !== this.user.id);
-    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000 });
-    this.user = {};
+    this.userDialogUpdate = true;
   }
 
   hideDialog() {
     this.userDialog = false;
+    this.userDialogUpdate = false;
     this.submitted = false;
   }
 
-  saveUser() {
-    this.submitted = true;
-
-    if (this.user.names?.trim()) {
-      if (this.user.id) {
-        this.users[this.findIndexById(this.user.id)] = this.user;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000 });
-      } else {
-        this.user.id = this.createId();
-        this.users.push(this.user);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000 });
+  createUser() {
+    this.userService.createUser(this.user).subscribe({
+      next: () => {
+        this.users = [...this.users];
+        this.userDialog = false;
+        this.getUsers();
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Usuario creado correctamente', life: 3000 });
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo crear el usuario', life: 3000 });
       }
-
-      this.users = [...this.users];
-      this.userDialog = false;
-      this.user = {};
-    }
+    });
   }
 
-  findIndexById(id: string): number {
-    let index = -1;
-    for (let i = 0; i < this.users.length; i++) {
-      if (this.users[i].id === id) {
-        index = i;
-        break;
+  updateUser() {
+    this.userService.updateUser(this.user).subscribe({
+      next: () => {
+        this.users = [...this.users];
+        this.userDialogUpdate = false;
+        this.getUsers();
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Usuario actualizado correctamente', life: 3000 });
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo actualizar el usuario', life: 3000 });
       }
-    }
-
-    return index;
-  }
-
-  createId(): string {
-    let id = '';
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
+    });
   }
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  isFormValid(): boolean {
+    return !this.user.names 
+    || !this.user.lastname
+    || !this.user.date_birth
+    || !this.user.email
+    || !this.user.password
+    || !this.user.phone
+    || !this.user.role_id;
+  }
+
+  isFormValidUpdate(): boolean {
+    return !this.user.names 
+    || !this.user.lastname
+    || !this.user.date_birth
+    || !this.user.email
+    || !this.user.phone
+    || !this.user.role_id;
   }
 }

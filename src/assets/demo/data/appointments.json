@@ -2,9 +2,10 @@
     "data": [
         {
             "id": "1",
-            "service_name": "Corte para caballero",
+            "service_name": "Corte para dama",
             "hairdresser_name": "Johan Suárez",
             "description": "Requiero de un corte clásico, pero tengo un poco de prisa",
+            "date": "25/03/2023",
             "status": "PENDIENTE"
         },
         {
@@ -12,6 +13,7 @@
             "service_name": "Manicure",
             "hairdresser_name": "Camilo Aguirre",
             "description": "Por favor necesito la linea francesa y requiero de un color en especial",
+            "date": "25/03/2023",
             "status": "REALIZADO"
         },
         {
@@ -19,6 +21,7 @@
             "service_name": "Keratina",
             "hairdresser_name": "Camila Perez",
             "description": "Requiero de un producto suave, que no dañe mi cabello y que por favor me coloquen un tratamiento",
+            "date": "25/03/2023",
             "status": "PENDIENTE"
         }
     ]

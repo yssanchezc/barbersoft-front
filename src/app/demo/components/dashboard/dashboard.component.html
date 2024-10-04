@@ -1,173 +1,139 @@
-    <div class="grid">
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Citas Programadas</span>
-                        <div class="text-900 font-medium text-xl">18</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-calendar text-blue-500 text-xl"></i>
-                    </div>
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Citas realizadas</span>
+                    <div class="text-900 font-medium text-xl">{{ total_completed }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-calendar text-blue-500 text-xl"></i>
                 </div>
             </div>
         </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Citas Reprogramadas</span>
-                        <div class="text-900 font-medium text-xl">5</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-calendar text-blue-500 text-xl"></i>
-                    </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Citas canceladas</span>
+                    <div class="text-900 font-medium text-xl">{{ total_cancelled }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-calendar text-blue-500 text-xl"></i>
                 </div>
             </div>
         </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-        </div>
-
-        <div class="col-12 xl:col-6">
-
-            <div class="card">
-                <div class="flex justify-content-between align-items-center mb-5">
-                    <h5>Citas Programadas</h5>
-                    <div>
-                        <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
-                        <p-menu #menu [popup]="true" [model]="items"></p-menu>
-                    </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Citas Programadas</span>
+                    <div class="text-900 font-medium text-xl">{{ total_pending }}</div>
                 </div>
-                <ul class="list-none p-0 m-0">
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Corte Para Dama </span>
-                            <div class="mt-1 text-600">Johana Herrera</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-orange-500 h-full" [ngStyle]="{width: '50%'}"></div>
-                            </div>
-                            <span class="text-orange-500 ml-3 font-medium">4 servicios</span>
-                        </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Corte Para Caballero</span>
-                            <div class="mt-1 text-600">Julio Peréz</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-cyan-500 h-full" [ngStyle]="{width: '65%'}"></div>
-                            </div>
-                            <span class="text-cyan-500 ml-3 font-medium">6 servicios</span>
-                        </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Keratinas  </span>
-                            <div class="mt-1 text-600">Andrea Goméz</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-pink-500 h-full" [ngStyle]="{width: '45%'}"></div>
-                            </div>
-                            <span class="text-pink-500 ml-3 font-medium">2 servicios</span>
-                        </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Manicure </span>
-                            <div class="mt-1 text-600">Daniela Cortes</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-green-500 h-full" [ngStyle]="{width: '65%'}"></div>
-                            </div>
-                            <span class="text-green-500 ml-3 font-medium">5 servicios</span>
-                        </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Pedicure</span>
-                            <div class="mt-1 text-600">Ana María Suárez</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-purple-500 h-full" [ngStyle]="{width: '75%'}"></div>
-                            </div>
-                            <span class="text-purple-500 ml-3 font-medium">5 servicios</span>
-                        </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Depilación Cejas</span>
-                            <div class="mt-1 text-600">Carolina Cruz</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-teal-500 h-full" [ngStyle]="{width: '40%'}"></div>
-                            </div>
-                            <span class="text-teal-500 ml-3 font-medium">3 servicios</span>
-                        </div>
-                    </li>
-                </ul>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-calendar text-blue-500 text-xl"></i>
+                </div>
             </div>
         </div>
-
-        <div class="col-12 xl:col-6">
-
-            <div class="card">
-                <div class="flex align-items-center justify-content-between mb-4">
-                    <h5>Notificaciones</h5>
-                    <div>
-                        <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
-                        <p-menu #menu [popup]="true" [model]="items"></p-menu>
-                    </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Citas Reprogramadas</span>
+                    <div class="text-900 font-medium text-xl">{{ total_rescheduled }}</div>
                 </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-calendar text-blue-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <span class="block text-600 font-medium mb-3">Jornada Mañana</span>
-                <ul class="p-0 mx-0 mt-0 mb-4 list-none">
-                    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+    <div class="col-12 xl:col-6">
+
+        <div class="card">
+            <div class="flex justify-content-between align-items-center mb-5">
+                <h5>Citas Programadas</h5>
+                <div>
+                    <button pButton type="button" icon="pi pi-ellipsis-v"
+                        class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                </div>
+            </div>
+            <ul class="list-none p-0 m-0">
+                <li *ngFor="let appointment of appointments"
+                    class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ appointment.service_name | uppercase  }}</span>
+                        <div class="mt-1 text-600">{{ appointment.client_name }}</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{height: '8px'}">
+                            <div [ngClass]="{'bg-orange-500': appointment.color === 'orange', 
+                                            'bg-cyan-500': appointment.color === 'cyan', 
+                                            'bg-pink-500': appointment.color === 'pink', 
+                                            'bg-green-500': appointment.color === 'green', 
+                                            'bg-purple-500': appointment.color === 'purple', 
+                                            'bg-teal-500': appointment.color === 'teal'}" class="h-full"
+                                [ngStyle]="{width: (appointment.quantity * 10) + '%'}"></div>
+                        </div>
+                        <span class="ml-3 font-medium">{{ appointment.service_count }} servicios</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="col-12 xl:col-6">
+
+        <div class="card">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <h5>Notificaciones</h5>
+                <div>
+                    <button pButton type="button" icon="pi pi-ellipsis-v"
+                        class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                </div>
+            </div>
+        
+            <span class="block text-600 font-medium mb-3">Jornada Mañana</span>
+            <ul class="p-0 mx-0 mt-0 mb-4 list-none">
+                <ng-container *ngFor="let appointment of appointments">
+                    <li *ngIf="isMorning(appointment.date)" class="flex align-items-center py-2 border-bottom-1 surface-border">
                         <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
                             <i class="pi pi-check text-xl text-blue-500"></i>
                         </div>
-                        <span class="text-900 line-height-3">Manicure
-                    <span class="text-700"> Por favor quiero uñas en microgel y que el diseño sea flores y de color verde <span class="text-blue-500">$135.000</span></span>
-                </span>
-                    </li>
-                    <li class="flex align-items-center py-2">
-                        <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
-                            <i class="pi pi-check text-xl text-orange-500"></i>
-                        </div>
-                        <span class="text-900 line-height-3">Manicure
-                            <span class="text-700"> Por favor quiero uñas en semipermanente y que el diseño sea corazones y de color rosado con frances <span class="text-blue-500">$110.000</span></span>
+                        <span class="text-900 line-height-3">{{ appointment.service_name | uppercase  }}
+                            <span class="text-700"> {{ appointment.description }} <span class="text-blue-500">${{ appointment.price }}</span></span>
                         </span>
                     </li>
-                </ul>
-
-                <span class="block text-600 font-medium mb-3">Jornada Tarde</span>
-                <ul class="p-0 m-0 list-none">
-                    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
-                        <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                            <i class="pi pi-check text-xl text-blue-500"></i>
-                        </div>
-                        <span class="text-900 line-height-3">Keratina
-                    <span class="text-700"> Necesito un cambio extremo en mi cabello, por favor los productos que sean organicos <span class="text-blue-500">$160.000</span></span>
-                </span>
-                    </li>
-                    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+                </ng-container>
+            </ul>
+        
+            <span class="block text-600 font-medium mb-3">Jornada Tarde</span>
+            <ul class="p-0 m-0 list-none">
+                <ng-container *ngFor="let appointment of appointments">
+                    <li *ngIf="!isMorning(appointment.date)" class="flex align-items-center py-2 border-bottom-1 surface-border">
                         <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-pink-100 border-circle mr-3 flex-shrink-0">
                             <i class="pi pi-check text-xl text-pink-500"></i>
                         </div>
-                        <span class="text-900 line-height-3">Corte para dama
-                            <span class="text-700"> Por favor llevo un poco de prisa y necesito un corte en capaz<span class="text-blue-500"> $25.000 </span></span>
+                        <span class="text-900 line-height-3">{{ appointment.service_name | uppercase  }}
+                            <span class="text-700"> {{ appointment.description }} <span class="text-blue-500">${{ appointment.price }}</span></span>
                         </span>
                     </li>
-                </ul>
-            </div>
+                </ng-container>
+            </ul>
+        </div>
+        
+        
     </div>
 </div>
-

@@ -1,0 +1,140 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="appointments" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['service_name','description','status']" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
+                [(selection)]="selectedAppointments" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Citas</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."
+                                class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="service_name">Nombre del servicio <p-sortIcon
+                                field="service_name"></p-sortIcon></th>
+                        <th pSortableColumn="description">Descripción <p-sortIcon field="description"></p-sortIcon></th>
+                        <th pSortableColumn="description">Fecha <p-sortIcon field="description"></p-sortIcon></th>
+                        <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-appointment>
+                    <tr>
+                        <td style="width:25%; min-width:10rem;"><span class="p-column-title">Service_name</span>
+                            {{appointment.service_name}}
+                        </td>
+                        <td style="width:30%; min-width:10rem;"><span class="p-column-title">Description</span>
+                            {{appointment.description}}
+                        </td>
+                        <td style="width: 20%; min-width:10rem;">
+                            <span class="p-column-title">Fecha y Hora</span>
+                            {{ appointment.date}}
+                        </td>
+                        <td style="width:25%; min-width: 10rem;"><span class="p-column-title">Status</span>
+                            <span>{{appointment.status}}</span>
+                        </td>
+                        <td>
+                            <div class="flex" *ngIf="appointment.status === 'PENDIENTE'">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-info mr-2"
+                                    (click)="editAppointment(appointment)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="appointmentDialog" [style]="{width: '450px'}" header="Nueva cita" [modal]="true"
+            class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="status">Servicio</label>
+                    <p-dropdown [(ngModel)]="appointment.service_id" [options]="services"
+                        placeholder="Selecione el servicio" appendTo="body">
+                    </p-dropdown>
+                </div>
+                <div class="field">
+                    <label for="Description">Descripción</label>
+                    <input type="text" pInputText id="description" [(ngModel)]="appointment.description" required
+                        autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !appointment.description}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !appointment.description">La descripción es
+                        requerida.</small>
+                </div>
+                <div class="field">
+                    <label for="dateTime">Fecha y Hora</label>
+                    <p-calendar id="dateTime" [(ngModel)]="appointment.date" [showTime]="true" [timeOnly]="false"
+                        required appendTo="body" [ngClass]="{'ng-invalid ng-dirty': submitted && !appointment.date}">
+                    </p-calendar>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !appointment.date">La fecha y hora son
+                        requeridas.</small>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Guardar" [disabled]="isFormValid()" icon="pi pi-check"
+                    class="p-button-text" (click)="saveAppointment()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="appointmentDialogUpdate" [style]="{width: '450px'}" header="Editar cita" [modal]="true"
+            class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="service_name">Nombre del servicio</label>
+                    <input type="text" pInputText id="service_name" [(ngModel)]="appointment.service_name" required
+                        autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !appointment.service_name}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !appointment.service_name">El nombre del
+                        servicio es requerido.</small>
+                </div>
+                <div class="field">
+                    <label for="Description">Descripción</label>
+                    <input type="text" pInputText id="description" [(ngModel)]="appointment.description" required
+                        autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !appointment.description}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !appointment.description">La descripción es
+                        requerida.</small>
+                </div>
+                <div class="field">
+                    <label for="dateTime">Fecha y Hora</label>
+                    <p-calendar id="dateTime" [(ngModel)]="appointment.date" [showTime]="true" required appendTo="body"
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && !appointment.date}">
+                    </p-calendar>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !appointment.date">La fecha y hora son
+                        requeridas.</small>
+                </div>
+                <div class="field">
+                    <label for="status">Estado</label>
+                    <p-dropdown [(ngModel)]="appointment.status" [options]="statuses" placeholder="Select"
+                        appendTo="body">
+                    </p-dropdown>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Guardar" [disabled]="isFormValid()" icon="pi pi-check" class="p-button-text"
+                    (click)="saveAppointment()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

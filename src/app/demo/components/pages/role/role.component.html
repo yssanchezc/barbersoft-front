@@ -7,18 +7,15 @@
                     <div class="my-2">
                         <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
                             (click)="openNew()"></button>
-                        <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger"
-                            (click)="deleteSelectedRoles()"
-                            [disabled]="!selectedRoles || !selectedRoles.length"></button>
                     </div>
                 </ng-template>
             </p-toolbar>
 
             <p-table #dt [value]="roles" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
-                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                [globalFilterFields]="['name']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [showCurrentPageReport]="true"
                 currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
-                [(selection)]="selectedRoles" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Roles</h5>
@@ -31,9 +28,6 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
                         <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
                         <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
                         <th></th>
@@ -41,22 +35,17 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-role>
                     <tr>
-                        <td>
-                            <p-tableCheckbox [value]="role"></p-tableCheckbox>
-                        </td>
                         <td style="width:40%; min-width:10rem;"><span class="p-column-title">Code</span>
                             {{role.name}}
                         </td>
-                        <td style="width:40%; min-width: 10rem;"><span class="p-column-title">Status</span>
-                            <span>ACTIVO</span>
+                        <td style="width:40%; min-width: 10rem;">
+                            <span class="p-column-title">Status</span>
+                            <span>{{ role.status ? 'ACTIVO' : 'INACTIVO' }}</span>
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2"
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-info mr-2"
                                     (click)="editRole(role)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteRole(role)"></button>
                             </div>
                         </td>
                     </tr>
@@ -64,8 +53,7 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="roleDialog" [style]="{width: '450px'}" header="Nuevo rol" [modal]="true"
-            class="p-fluid">
+        <p-dialog [(visible)]="roleDialog" [style]="{width: '450px'}" header="Nuevo rol" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
                     <label for="name">Nombre</label>
@@ -79,34 +67,33 @@
                 <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
                     (click)="hideDialog()"></button>
                 <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
-                    (click)="saveRole()"></button>
+                    (click)="createRole()" [disabled]="isFormValid()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteRoleDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="role">¿Está seguro que desea eliminar el rol <b>{{role.name}}</b>?</span>
-            </div>
+        <p-dialog [(visible)]="roleDialogUpdate" [style]="{width: '450px'}" header="Editar rol" [modal]="true"
+            class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="name">Nombre</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="role.name" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !role.name}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !role.name">El nombre es requerido.</small>
+                </div>
+                <div class="field">
+                    <label for="status">Estado</label>
+                    <p-dropdown [(ngModel)]="role.status" [options]="statuses" placeholder="Select" appendTo="body">
+                    </p-dropdown>
+                </div>
+            </ng-template>
+
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-                    (click)="deleteRoleDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
-                    (click)="confirmDelete()"></button>
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Guardar" [disabled]="isFormValid()" icon="pi pi-check" class="p-button-text"
+                    (click)="updateRole()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteRolesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Está seguro que desea eliminar los roles seleccionados?</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-                    (click)="deleteRolesDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
-                    (click)="confirmDeleteSelected()"></button>
-            </ng-template>
-        </p-dialog>
     </div>
 </div>
